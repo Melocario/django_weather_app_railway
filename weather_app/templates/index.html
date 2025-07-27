@@ -1,50 +1,130 @@
-{% extends 'base.html' %} {% block content %}
-<div style="padding: 20px; max-width: 1200px; margin: 0 auto">
-  <div style="text-align: center; max-width: 1200px; margin: 0 auto">
-    <form method="POST">
-      {% csrf_token %}
-      <input
-        type="text"
-        name="city"
-        placeholder="Enter city name"
-        style="padding: 10px; width: 200px; margin-right: 10px"
-      />
-      <button
-        type="submit"
-        style="
-          padding: 10px 20px;
-          background: #007bff;
-          color: aliceblue;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        "
-      >
-        Add city
-      </button>
-    </form>
-  </div>
-</div>
-<div
-  style="
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-  "
->
-  {% for weather in weather_data %}
-  <div style="border: 1px solid #ddd; padding: 20px; border-radius: 5px; text-align: center; background-color: white;">
-    <img
-      src="http://openweathermap.org/img/w/{{ weather.icon }}.png"
-      alt="Weather icon"
-      style="width: 60px; margin-bottom: 10px"
-    />
-    <h3 style="margin: 10px 0">{{ weather.city }}</h3>
-    <div style="font-size: 24px; margin: 10px 0">
-      {{ weather.temperature }}°C
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Application</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom styles from your base.html, integrated with Tailwind */
+      body {
+        margin: 0;
+        line-height: 1.6;
+        font-family: 'Inter', sans-serif; /* Applied Inter font */
+        background-color: #f4f7ff; /* Lighter background for the body */
+        color: #333; /* Default text color */
+      }
+
+      nav {
+        background-color: rgb(41, 40, 40);
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added subtle shadow to nav */
+      }
+
+      nav a {
+        color: aliceblue;
+        text-decoration: none;
+        font-size: 1.4rem; /* Slightly larger font for nav link */
+        font-weight: 600; /* Slightly bolder font */
+        transition: color 0.3s ease; /* Smooth transition for hover effect */
+      }
+
+      nav a:hover {
+        color: #a0aec0; /* Lighter color on hover */
+      }
+
+      /* The .container class is now largely handled by Tailwind's max-w-6xl and mx-auto */
+      .msg {
+        padding: 15px; /* Increased padding for messages */
+        margin: 15px auto; /* Centered messages with more margin */
+        border-radius: 8px; /* More rounded corners for messages */
+        text-align: center;
+        max-width: 600px; /* Limit width of message boxes */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for messages */
+        font-weight: 500;
+        font-size: 1.05rem;
+      }
+
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .error {
+        background-color: #ffebee;
+        color: #d32f2f; /* Darker red for better contrast */
+        border: 1px solid #ffcdd2;
+      }
+
+      .info {
+        background-color: #d1ecf1;
+        color: #01579b; /* Darker blue for better contrast */
+        border: 1px solid #bee5eb;
+      }
+
+      /* Basic Responsiveness for nav, though Tailwind handles most of it now */
+      @media (max-width: 768px) {
+        nav a {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="container mx-auto px-5"> <!-- Added Tailwind classes for container -->
+        <a href="{% url 'home' %}">Weather App</a>
+      </div>
+    </nav>
+
+    <div>
+      {% if messages %} {% for msg in messages %}
+      <div class="msg {{ msg.tags }}">{{ msg }}</div>
+      {% endfor %} {% endif %}
+
+      <!-- Content from your provided block, with Tailwind styles applied -->
+      <div class="p-5 max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+          <form method="POST" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {% csrf_token %}
+            <input
+              type="text"
+              name="city"
+              placeholder="Enter city name"
+              class="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 max-w-xs sm:max-w-none w-full"
+            />
+            <button
+              type="submit"
+              class="w-full sm:w-auto py-3 px-6 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300"
+            >
+              Add city
+            </button>
+          </form>
+        </div>
+
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8"
+        >
+          {% for weather in weather_data %}
+          <div class="bg-white p-6 rounded-lg shadow-lg text-center transition-transform duration-300 hover:scale-105">
+            <img
+              src="http://openweathermap.org/img/w/{{ weather.icon }}.png"
+              alt="Weather icon"
+              class="w-20 h-20 mx-auto mb-4"
+            />
+            <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ weather.city }}</h3>
+            <div class="text-5xl font-bold text-blue-600 mb-4">
+              {{ weather.temperature }}°C
+            </div>
+            <p class="text-gray-600 text-lg">{{ weather.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <p style="color: #666;">{{ weather.description }}</p>
-  </div>
-  {% endfor %}
-</div>
-{% endblock content %}
+  </body>
+</html>

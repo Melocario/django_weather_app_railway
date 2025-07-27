@@ -4,49 +4,82 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Application</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       body {
         margin: 0;
         line-height: 1.6;
+        font-family: 'Inter', sans-serif; /* Applied Inter font */
+        background-color: #f4f7f6; /* Light background for the body */
+        color: #333; /* Default text color */
       }
 
       nav {
         background-color: rgb(41, 40, 40);
         padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added subtle shadow to nav */
       }
 
       nav a {
         color: aliceblue;
         text-decoration: none;
-        font-size: 1.2rem;
-        font-weight: bold;
+        font-size: 1.4rem; /* Slightly larger font for nav link */
+        font-weight: 600; /* Slightly bolder font */
+        transition: color 0.3s ease; /* Smooth transition for hover effect */
+      }
+
+      nav a:hover {
+        color: #a0aec0; /* Lighter color on hover */
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 15px;
+        padding: 0 20px; /* Increased horizontal padding for container */
       }
+
       .msg {
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 4px;
+        padding: 15px; /* Increased padding for messages */
+        margin: 15px auto; /* Centered messages with more margin */
+        border-radius: 8px; /* More rounded corners for messages */
         text-align: center;
+        max-width: 600px; /* Limit width of message boxes */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for messages */
+        font-weight: 500;
+        font-size: 1.05rem;
       }
-      .success{
+
+      .success {
         background-color: #d4edda;
         color: #155724;
         border: 1px solid #c3e6cb;
       }
-      .error{
+
+      .error {
         background-color: #ffebee;
-        color: red;
+        color: #d32f2f; /* Darker red for better contrast */
         border: 1px solid #ffcdd2;
       }
-      .info{
+
+      .info {
         background-color: #d1ecf1;
-        color: green;
+        color: #01579b; /* Darker blue for better contrast */
         border: 1px solid #bee5eb;
+      }
+
+      /* Basic Responsiveness */
+      @media (max-width: 768px) {
+        nav a {
+          font-size: 1.2rem;
+        }
+        .container {
+          padding: 0 15px;
+        }
+        .msg {
+          padding: 12px;
+          font-size: 1rem;
+        }
       }
     </style>
   </head>
@@ -55,7 +88,6 @@
       <div class="container">
         <a
           href="{% url 'home' %}"
-          style="font-family: Arial, Helvetica, sans-serif"
           >Weather App</a
         >
       </div>
