@@ -5,376 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Application</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-        min-height: 100vh;
+        margin: 0;
         line-height: 1.6;
-        color: #333;
       }
 
       nav {
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(10px);
-        padding: 1rem 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: rgb(41, 40, 40);
+        padding: 1rem;
       }
 
       nav a {
-        color: #fff;
+        color: aliceblue;
         text-decoration: none;
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
-
-      nav a:hover {
-        color: #74b9ff;
-        transition: color 0.3s ease;
+        font-size: 1.2rem;
+        font-weight: bold;
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 15px;
       }
-
-      .main-content {
-        padding: 2rem 0;
-      }
-
-      /* Message Styles */
       .msg {
-        padding: 15px 20px;
-        margin: 15px 0;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 500;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .success {
-        background: linear-gradient(135deg, #00b894, #00a085);
-        color: white;
-        border: none;
-      }
-
-      .error {
-        background: linear-gradient(135deg, #e17055, #d63031);
-        color: white;
-        border: none;
-      }
-
-      .info {
-        background: linear-gradient(135deg, #74b9ff, #0984e3);
-        color: white;
-        border: none;
-      }
-
-      /* Weather Card Styles */
-      .weather-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 2rem;
-        margin: 2rem auto;
-        max-width: 500px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
         text-align: center;
       }
-
-      .weather-form {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 2rem;
-        margin: 2rem auto;
-        max-width: 400px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      .success{
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
       }
-
-      .form-group {
-        margin-bottom: 1.5rem;
+      .error{
+        background-color: #ffebee;
+        color: red;
+        border: 1px solid #ffcdd2;
       }
-
-      label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #2d3436;
-      }
-
-      input[type="text"] {
-        width: 100%;
-        padding: 12px 15px;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-        background: rgba(255, 255, 255, 0.9);
-      }
-
-      input[type="text"]:focus {
-        outline: none;
-        border-color: #74b9ff;
-        box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.2);
-      }
-
-      .btn {
-        background: linear-gradient(135deg, #74b9ff, #0984e3);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        width: 100%;
-      }
-
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(116, 185, 255, 0.4);
-      }
-
-      .btn:active {
-        transform: translateY(0);
-      }
-
-      /* Weather Display Styles */
-      .city-name {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #2d3436;
-        margin-bottom: 1rem;
-      }
-
-      .temperature {
-        font-size: 3rem;
-        font-weight: 300;
-        color: #0984e3;
-        margin: 1rem 0;
-      }
-
-      .weather-description {
-        font-size: 1.2rem;
-        color: #636e72;
-        margin-bottom: 2rem;
-        text-transform: capitalize;
-      }
-
-      .weather-details {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-
-      .detail-item {
-        background: rgba(116, 185, 255, 0.1);
-        padding: 1rem;
-        border-radius: 10px;
-        text-align: center;
-      }
-
-      .detail-label {
-        font-size: 0.9rem;
-        color: #636e72;
-        font-weight: 500;
-      }
-
-      .detail-value {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #2d3436;
-        margin-top: 0.5rem;
-      }
-
-      /* Weather Icon */
-      .weather-icon {
-        font-size: 4rem;
-        margin: 1rem 0;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .container {
-          padding: 0 15px;
-        }
-        
-        .weather-card,
-        .weather-form {
-          margin: 1rem;
-          padding: 1.5rem;
-        }
-        
-        .city-name {
-          font-size: 1.5rem;
-        }
-        
-        .temperature {
-          font-size: 2.5rem;
-        }
-        
-        .weather-details {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-
-      /* Loading Animation */
-      .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: #fff;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-
-      /* Footer */
-      .footer {
-        text-align: center;
-        padding: 2rem;
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.9rem;
-      }
-
-      /* Animated Background Elements */
-      .bg-element {
-        position: fixed;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        animation: float 6s ease-in-out infinite;
-        pointer-events: none;
-        z-index: -1;
-      }
-
-      .bg-element:nth-child(1) {
-        top: 20%;
-        left: 10%;
-        width: 80px;
-        height: 80px;
-        animation-delay: 0s;
-      }
-
-      .bg-element:nth-child(2) {
-        top: 60%;
-        right: 10%;
-        width: 60px;
-        height: 60px;
-        animation-delay: 2s;
-      }
-
-      .bg-element:nth-child(3) {
-        bottom: 20%;
-        left: 20%;
-        width: 100px;
-        height: 100px;
-        animation-delay: 4s;
-      }
-
-      @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(180deg); }
+      .info{
+        background-color: #d1ecf1;
+        color: green;
+        border: 1px solid #bee5eb;
       }
     </style>
   </head>
   <body>
-    <!-- Animated Background Elements -->
-    <div class="bg-element"></div>
-    <div class="bg-element"></div>
-    <div class="bg-element"></div>
-
     <nav>
       <div class="container">
-        <a href="{% url 'home' %}">🌤️ Weather App</a>
+        <a
+          href="{% url 'home' %}"
+          style="font-family: Arial, Helvetica, sans-serif"
+          >Weather App</a
+        >
       </div>
     </nav>
-
-    <div class="main-content">
-      <div class="container">
-        <!-- Messages -->
-        {% if messages %}
-          {% for msg in messages %}
-            <div class="msg {{ msg.tags }}">{{ msg }}</div>
-          {% endfor %}
-        {% endif %}
-
-        <!-- Sample Weather Form -->
-        <div class="weather-form">
-          <form method="GET">
-            <div class="form-group">
-              <label for="city">Enter City Name</label>
-              <input type="text" id="city" name="city" placeholder="e.g., New York, London, Tokyo" required>
-            </div>
-            <button type="submit" class="btn">
-              🔍 Get Weather
-            </button>
-          </form>
-        </div>
-
-        <!-- Sample Weather Display -->
-        <div class="weather-card">
-          <div class="weather-icon">☀️</div>
-          <div class="city-name">San Francisco</div>
-          <div class="temperature">22°C</div>
-          <div class="weather-description">Partly Cloudy</div>
-          
-          <div class="weather-details">
-            <div class="detail-item">
-              <div class="detail-label">Feels like</div>
-              <div class="detail-value">25°C</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Humidity</div>
-              <div class="detail-value">65%</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Wind Speed</div>
-              <div class="detail-value">12 km/h</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Pressure</div>
-              <div class="detail-value">1013 hPa</div>
-            </div>
-          </div>
-        </div>
-
-        {% block content %}
-        {% endblock content %}
-      </div>
+    <div>
+      {% if messages %} {% for msg in messages %}
+      <div class="msg {{ msg.tags }}">{{ msg }}</div>
+      {% endfor %} {% endif %} {% block content %} {% endblock content %}
     </div>
-
-    <div class="footer">
-      <p>Weather data provided by your favorite weather service</p>
-    </div>
-
-    <script>
-      // Simple form enhancement
-      document.querySelector('form').addEventListener('submit', function(e) {
-        const button = this.querySelector('.btn');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<span class="loading"></span> Getting Weather...';
-        button.disabled = true;
-        
-        // Re-enable after 3 seconds (you'd normally do this after the request completes)
-        setTimeout(() => {
-          button.innerHTML = originalText;
-          button.disabled = false;
-        }, 3000);
-      });
-    </script>
   </body>
 </html>
