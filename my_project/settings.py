@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['djangoweatherapprailway.up.railway.app', 'localhost', '127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS = ['http://djangoweatherapprailway.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://djangoweatherapprailway.up.railway.app']
 
 # Application definition
 
