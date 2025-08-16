@@ -6,121 +6,358 @@
     <title>Weather Application</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Custom styles from your base.html, integrated with Tailwind */
-      body {
+      * {
         margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
         line-height: 1.6;
-        font-family: 'Inter', sans-serif; /* Applied Inter font */
-        background-color: #f4f7ff; /* Lighter background for the body */
-        color: #333; /* Default text color */
+        font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        min-height: 100vh;
+        color: #333;
       }
 
       nav {
-        background-color: rgb(41, 40, 40);
-        padding: 1rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added subtle shadow to nav */
+        background: #2563eb;
+        box-shadow: 0 2px 12px rgba(37, 99, 235, 0.15);
+        padding: 1.2rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
       }
 
       nav a {
-        color: aliceblue;
+        color: white;
         text-decoration: none;
-        font-size: 1.4rem; /* Slightly larger font for nav link */
-        font-weight: 600; /* Slightly bolder font */
-        transition: color 0.3s ease; /* Smooth transition for hover effect */
+        font-size: 1.8rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        display: inline-block;
       }
 
       nav a:hover {
-        color: #a0aec0; /* Lighter color on hover */
+        transform: translateY(-2px);
+        opacity: 0.9;
       }
 
-      /* The .container class is now largely handled by Tailwind's max-w-6xl and mx-auto */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .main-content {
+        padding: 3rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Message styles */
       .msg {
-        padding: 15px; /* Increased padding for messages */
-        margin: 15px auto; /* Centered messages with more margin */
-        border-radius: 8px; /* More rounded corners for messages */
+        padding: 1rem 1.5rem;
+        margin: 1.5rem auto;
+        border-radius: 12px;
         text-align: center;
-        max-width: 600px; /* Limit width of message boxes */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for messages */
+        max-width: 600px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         font-weight: 500;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        border: 1px solid transparent;
+        animation: slideIn 0.5s ease-out;
       }
 
       .success {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
+        background: #d1fae5;
+        color: #065f46;
+        border-color: #a7f3d0;
       }
 
       .error {
-        background-color: #ffebee;
-        color: #d32f2f; /* Darker red for better contrast */
-        border: 1px solid #ffcdd2;
+        background: #fee2e2;
+        color: #991b1b;
+        border-color: #fecaca;
       }
 
       .info {
-        background-color: #d1ecf1;
-        color: #01579b; /* Darker blue for better contrast */
-        border: 1px solid #bee5eb;
+        background: #dbeafe;
+        color: #1e40af;
+        border-color: #93c5fd;
       }
 
-      /* Basic Responsiveness for nav, though Tailwind handles most of it now */
+      /* Search form styling */
+      .search-section {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .search-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-input::placeholder {
+        color: #9ca3af;
+        font-weight: 400;
+      }
+
+      .search-button {
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: white;
+        background: #2563eb;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        font-family: 'Inter', sans-serif;
+        min-width: 150px;
+      }
+
+      .search-button:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+      }
+
+      .search-button:active {
+        transform: translateY(0);
+      }
+
+      /* Weather cards grid */
+      .weather-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .weather-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      .weather-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+      }
+
+      .weather-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .city-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 1rem;
+      }
+
+      .temperature {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 1rem;
+      }
+
+      .description {
+        font-size: 1.1rem;
+        color: #6b7280;
+        font-weight: 400;
+        text-transform: capitalize;
+      }
+
+      /* Animations */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive design */
       @media (max-width: 768px) {
         nav a {
-          font-size: 1.2rem;
+          font-size: 1.5rem;
+        }
+        
+        .container {
+          padding: 0 1rem;
+        }
+        
+        .main-content {
+          padding: 2rem 1rem;
+        }
+        
+        .search-form {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        
+        .search-input {
+          font-size: 1rem;
+          padding: 0.8rem 1.2rem;
+        }
+        
+        .search-button {
+          width: 100%;
+          padding: 0.8rem 2rem;
+          font-size: 1rem;
+        }
+        
+        .weather-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        
+        .weather-card {
+          padding: 1.5rem;
+        }
+        
+        .temperature {
+          font-size: 2.5rem;
+        }
+        
+        .city-name {
+          font-size: 1.3rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        nav a {
+          font-size: 1.3rem;
+        }
+        
+        .main-content {
+          padding: 1.5rem 0.5rem;
+        }
+        
+        .weather-card {
+          padding: 1.2rem;
+        }
+        
+        .temperature {
+          font-size: 2.2rem;
+        }
+        
+        .weather-icon {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      @media (min-width: 640px) {
+        .search-form {
+          flex-direction: row;
+          gap: 1rem;
+        }
+        
+        .search-input {
+          flex-grow: 1;
+        }
+        
+        .search-button {
+          width: auto;
         }
       }
     </style>
   </head>
   <body>
     <nav>
-      <div class="container mx-auto px-5"> <!-- Added Tailwind classes for container -->
-        <a href="{% url 'home' %}" style="text-align: center;">Weather App</a>
+      <div class="container">
+        <a href="{% url 'home' %}">🌤️ Weather App</a>
       </div>
     </nav>
 
     <div>
-      {% if messages %} {% for msg in messages %}
-      <div class="msg {{ msg.tags }}">{{ msg }}</div>
-      {% endfor %} {% endif %}
+      {% if messages %} 
+        {% for msg in messages %}
+          <div class="msg {{ msg.tags }}">{{ msg }}</div>
+        {% endfor %} 
+      {% endif %}
 
-      <!-- Content from your provided block, with Tailwind styles applied -->
-      <div class="p-5 max-w-6xl mx-auto">
-        <div class="text-center mb-8">
-          <form method="POST" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div class="main-content">
+        <div class="search-section">
+          <form method="POST" class="search-form">
             {% csrf_token %}
             <input
               type="text"
               name="city"
-              placeholder="Enter city name"
-              class="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 max-w-xs sm:max-w-none w-full"
+              placeholder="🔍 Enter city name..."
+              class="search-input"
+              required
             />
-            <button
-              type="submit"
-              class="w-full sm:w-auto py-3 px-6 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300"
-            >
-              Add city
+            <button type="submit" class="search-button">
+              Add City
             </button>
           </form>
         </div>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8"
-        >
+        <div class="weather-grid">
           {% for weather in weather_data %}
-          <div class="bg-white p-6 rounded-lg shadow-lg text-center transition-transform duration-300 hover:scale-105">
+          <div class="weather-card">
             <img
               src="http://openweathermap.org/img/w/{{ weather.icon }}.png"
               alt="Weather icon"
-              class="w-20 h-20 mx-auto mb-4"
+              class="weather-icon"
             />
-            <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ weather.city }}</h3>
-            <div class="text-5xl font-bold text-blue-600 mb-4">
+            <h3 class="city-name">{{ weather.city }}</h3>
+            <div class="temperature">
               {{ weather.temperature }}°C
             </div>
-            <p class="text-gray-600 text-lg">{{ weather.description }}</p>
+            <p class="description">{{ weather.description }}</p>
           </div>
           {% endfor %}
         </div>
